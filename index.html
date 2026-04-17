@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archive Node</title>
+
+  <style>
+    body {
+      background: black;
+      color: #00ff9f;
+      font-family: monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100dvh;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .box {
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    input {
+      background: black;
+      border: 1px solid #00ff9f;
+      color: #00ff9f;
+      padding: 10px;
+      width: 100%;
+      max-width: 400px;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    button {
+      margin-top: 12px;
+      background: #00ff9f;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+    }
+
+    #status {
+      margin-top: 15px;
+      min-height: 20px;
+    }
+
+    .glitch {
+      animation: glitch 0.2s infinite;
+    }
+
+    @keyframes glitch {
+      0% { text-shadow: 1px 0 red; }
+      50% { text-shadow: -1px 0 blue; }
+      100% { text-shadow: 1px 0 red; }
+    }
+
+    #terminal {
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-wrap;     
+    word-break: break-word;    
+    height: 100dvh;
+    overflow-y: auto
+    }
+
+    #pattern {
+      padding-top: 10px;
+      margin-top: 20px;
+      cursor: pointer;
+      padding: 15px;
+      display: inline-block;
+    }
+
+    .blink {
+      animation: blinkCursor 1s infinite;
+    }
+
+    @keyframes blinkCursor {
+      0%, 50%, 100% {
+        opacity: 1;
+      }
+      25%, 75% {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>ARCHIVE NODE // RESTRICTED</h2>
+  <p>Enter access phrase:</p>
+  <input id="key" type="password" />
+  <br>
+  <button onclick="check()">ENTER</button>
+  <p id="status"></p>
+</div>
+
+<script>
+let attempts = 0;
+
+/* =========================
+   STEP 1: LOGIN
+========================= */
+function check() {
+  let input = document.getElementById("key").value.toLowerCase().trim();
+  let status = document.getElementById("status");
+
+  attempts++;
+  status.innerText = "Verifying...";
+
+  setTimeout(() => {
+
+    if (attempts >= 3 && input !== "airt") {
+      status.innerText = "Too many attempts. Access restricted.";
+      document.body.classList.add("glitch");
+      return;
+    }
+
+    if (input === "airt") {
+      bootSequence();
+    } else {
+       let responses = [
+        "ACCESS DENIED",
+        "INVALID KEY",
+        "INSUFFICIENT CLEARANCE",
+        "UNRECOGNIZED INPUT"
+      ];
+
+      status.innerText = responses[Math.floor(Math.random() * responses.length)];
+    }
+
+  }, 1200);
+    
+}
+
+/* =========================
+   STEP 2: TERMINAL LOG
+========================= */
+function bootSequence() {
+    document.body.className = "";
+
+  document.body.style.display = "block";
+  document.body.style.overflow = "auto";
+  document.body.style.height = "auto";
+
+  document.body.innerHTML = `<pre id="terminal"></pre>`;
+  
+  let text = [
+    "ACCESS GRANTED",
+    "",
+    "Establishing secure channel...",
+    "Decrypting archive...",
+    "",
+    "ARCHIVE LOG — PHASE 02",
+    "",
+    "They are progressing.",
+    "Few question the structure.",
+    "",
+    "Pattern recognition remains inconsistent.",
+    "",
+    "49 61 20 74 69 64 61 6b 20 62",
+    "65 72 62 69 63 61 72 61 2c 20",
+    "74 61 70 69 20 73 65 6d 75 61",
+    "20 6f 72 61 6e 67 20 62 65 72",
+    "68 65 6e 74 69 20 6b 61 72 65",
+    "6e 61 6e 79 61 2e",
+    "",
+    "----------------------------------------",
+    "",
+    "[INITIATING PATTERN TEST]"
+  ];
+
+  typeLines(text, "terminal", startPatternTest);
+}
+
+/* typing effect */
+function typeLines(lines, elementId, callback) {
+  let el = document.getElementById(elementId);
+  let i = 0;
+
+  function next() {
+    if (i < lines.length) {
+      el.innerHTML += lines[i] + "\n";
+      el.scrollTop = el.scrollHeight; 
+      i++;
+      setTimeout(next, 120);
+    } else if (callback) {
+      callback();
+    }
+  }
+
+  next();
+}
+
+/* =========================
+   STEP 3: PATTERN SYSTEM
+========================= */
+
+let taps = 0;
+let lastTap = 0;
+
+function startPatternTest() {
+  let terminal = document.getElementById("terminal");
+
+  terminal.innerHTML += `
+  \nSignal requires stability
+Tap sequence must align
+
+Find the pattern first
+<div id="pattern" onclick="tapPattern()">
+<span class="blink">&gt;</span> Pattern recognition remains inconsistent
+</div>
+`;
+}
+
+function tapPattern() {
+  let now = Date.now();
+
+  if (now - lastTap < 200) {
+    fail("unstable");
+    return;
+  }
+
+  lastTap = now;
+  taps++;
+
+  let el = document.getElementById("pattern");
+
+if (taps === 1) el.innerText = "> Begin.";
+if (taps === 2) el.innerText = "> Still unstable.";
+if (taps === 3) el.innerText = "> Pattern not clear.";
+if (taps === 4) el.innerText = "> Something feels slightly off.";
+if (taps === 5) el.innerText = "> Try to follow the rhythm.";
+if (taps === 6) el.innerText = "> The signal starts to align now.";
+if (taps === 7) el.innerText = "> You are getting closer than before now.";
+if (taps === 8) el.innerText = "> Just a little more consistency is required now.";
+if (taps === 9) success();
+
+
+  if (taps > 10) fail("excess");
+}
+
+/* =========================
+   RESULT
+========================= */
+
+function success() {
+  document.body.innerHTML = `
+<pre>
+Pattern recognized.
+
+Signal stabilized.
+
+Redirecting...
+</pre>
+  `;
+
+  setTimeout(() => {
+    window.location.href = "https://pastebin.com/mainpath";
+  }, 2000);
+}
+
+function fail(type) {
+  let msg = type === "unstable"
+    ? "Signal unstable.\nYou are acting too fast."
+    : "Excess input.\nPattern corrupted.";
+
+  document.body.innerHTML = `
+<pre>
+${msg}
+
+You are not ready.
+
+— 0x03
+</pre>
+  `;
+
+  setTimeout(() => {
+    window.location.href = "https://pastebin.com/failpath";
+  }, 3000);
+}
+</script>
+
+</body>
+</html>
