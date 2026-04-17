@@ -1,6 +1,6 @@
 # ARCHIVE NODE - PHASE 3
 
 
-[Overview] (https://iycrtyac.netlify.app/)
+[Look at me!](https://iycrtyac.netlify.app/)
 
-&copy Cicada 3301 - Roleplayer, 2026
+&copy; Cicada 3301 - Roleplayer, 2026
